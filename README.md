@@ -1,17 +1,37 @@
-# smart_savings_assistant
+# DealBlast
 
-A new Flutter project.
+DealBlast is a Flutter-based coupon and deal discovery application that helps users search products, discover discounts, claim coupons, and complete a checkout flow through a simple mobile experience.
 
-## Getting Started
+## Features
 
-This project is a starting point for a Flutter application.
+* Product Search with suggestions
+* Category-based browsing
+* Deal Details Page
+* Coupon Claim Functionality
+* Checkout Flow
+* Order Confirmation
+* Product Availability Search
 
-A few resources to get you started if this is your first Flutter project:
+## Tech Stack
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+* Flutter
+* Dart
+* Android Studio
+* Git
+* GitHub
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Screenshots
+
+(Add screenshots here after upload)
+
+## Future Enhancements
+
+* AI-powered coupon recommendations
+* Personalized deal suggestions
+* Product availability notifications
+* Backend integration
+* User accounts and saved offers
+
+## Purpose
+
+This project was developed as an independent product development initiative to demonstrate product thinking, business analysis, user flow design, and mobile application development skills.
