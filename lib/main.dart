@@ -12,19 +12,61 @@ class DealBlastApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'DealBlast',
-      home: HomePage(),
+      home: const HomePage(),
     );
   }
 }
 
-class HomePage extends StatelessWidget {
-  HomePage({super.key});
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  final TextEditingController searchController =
+  TextEditingController();
+
+  String searchResult = "";
+  List<String> get filteredProducts {
+    return allProducts
+        .where(
+          (product) => product.toLowerCase().contains(
+        searchController.text.toLowerCase(),
+      ),
+    )
+        .toList();
+  }
 
   final List<Map<String, String>> deals = [
     {"title": "Nike Air Force", "discount": "60% OFF"},
     {"title": "RayBan", "discount": "40% OFF"},
-    {"title": "puma", "discount": "50% OFF"},
+    {"title": "Puma", "discount": "50% OFF"},
     {"title": "Adidas", "discount": "35% OFF"},
+  ];
+
+  final List<String> allProducts = [
+    "Nike Air Force",
+    "Nike Pegasus",
+    "Nike Revolution",
+    "Adidas Ultraboost",
+    "Puma RS-X",
+    "Jordan 1",
+    "Apple Watch",
+    "Rolex",
+    "Casio G-Shock",
+    "Titan Edge",
+    "RayBan Aviator",
+    "Oakley Holbrook",
+    "Prada Black",
+    "Gucci Square",
+    "Tom Ford",
+    "iPhone 15",
+    "Samsung S25",
+    "Google Pixel",
+    "OnePlus 13",
+    "Nothing Phone",
   ];
 
   @override
@@ -77,8 +119,12 @@ class HomePage extends StatelessWidget {
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(20),
                   ),
-                  child: const TextField(
-                    decoration: InputDecoration(
+                  child: TextField(
+                    controller: searchController,
+                    onChanged: (value) {
+                      setState(() {});
+                    },
+                    decoration: const InputDecoration(
                       prefixIcon: Icon(Icons.search),
                       hintText: "Search products...",
                       border: InputBorder.none,
@@ -86,13 +132,63 @@ class HomePage extends StatelessWidget {
                     ),
                   ),
                 ),
+                if (searchController.text.isNotEmpty)
+                  Container(
+                    margin: const EdgeInsets.only(top: 15),
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: filteredProducts.isEmpty
+                          ? [
+                        const Padding(
+                          padding: EdgeInsets.all(20),
+                          child: Text(
+                            "😔 Product Not Available da gandu\n\nWe'll notify you when available.\n\nThank you for using DealBlast. da loper",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ]
+                          : filteredProducts
+                          .where(
+                            (product) => product.toLowerCase().contains(
+                          searchController.text.toLowerCase(),
+                        ),
+                      )
+                          .map(
+                            (product) => ListTile(
+                          title: Text(product),
+                          trailing: const Icon(Icons.arrow_forward_ios),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => DealDetailsPage(
+                                  title: product,
+                                  discount: "50% OFF",
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      )
+                          .toList(),
+                    ),
+                  ),
 
                 const SizedBox(height: 30),
                 Container(
                   width: double.infinity,
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.15),
+                    color: Colors.white.withOpacity(0.50),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Column(
@@ -517,7 +613,22 @@ class DealDetailsPage extends StatelessWidget {
               width: double.infinity,
               height: 55,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text(
+                        "🎉 Coupon Claimed Successfully!",
+                      ),
+                    ),
+                  );
+
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const CheckoutPage(),
+                    ),
+                  );
+                },
                 child: const Text(
                   "Claim Coupon",
                   style: TextStyle(fontSize: 18),
@@ -656,6 +767,78 @@ class ElectronicsPage extends StatelessWidget {
             title: Text(phones[index]),
           );
         },
+      ),
+    );
+  }
+}
+class CheckoutPage extends StatelessWidget {
+  const CheckoutPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Checkout"),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              "Nike Air Force",
+              style: TextStyle(
+                fontSize: 28,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
+            const Text(
+              "Original Price: ₹60,000",
+            ),
+
+            const SizedBox(height: 10),
+
+            const Text(
+              "Discount: 60% OFF",
+            ),
+
+            const SizedBox(height: 10),
+
+            const Text(
+              "Final Price: ₹25,000",
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Colors.green,
+              ),
+            ),
+
+            const SizedBox(height: 40),
+
+            SizedBox(
+              width: double.infinity,
+              height: 55,
+              child: ElevatedButton(
+                onPressed: () {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text(
+                        "✅ Order Placed Successfully!",
+                      ),
+                    ),
+                  );
+                },
+                child: const Text(
+                  "Buy Now",
+                  style: TextStyle(fontSize: 18),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
